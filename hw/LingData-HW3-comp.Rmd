@@ -24,8 +24,13 @@ hist(x, col="tomato", main="")
 ```
 
 a. What is the proportion of values in the sample that exceed $5$? Explain your answer.
+0.25
+1+10+4+4++1=20 (всего)
+5/20 = 0.25
 b. Indicate the interval where the median of this sample can lie. Explain your answer.
+Медиана, скорее всего, будет проходить в промежутке между -5 до 0, потому что  примерно  в этом промежутке сосредотачивается половина (10) от всего количества элементов.  
 c. How the histogram will change if we add an element $7$ to the sample? Explain your answer.
+Если добавить элемент 7, то столбец, лежащий в промежутке от 5 до 10, станет выше на 1 пункт. 
 
 ### Problem 2
 
@@ -43,6 +48,7 @@ hist(sample2, col="lightgreen", xlim=c(100, 900))
 ```
 
 Which of the samples has a larger variance? Explain your answer.
+Дисперсия больше в гистограмме 1, потому что в гистограмме 2 вся выборка умещается в интервал от 400 до 600, а в гистограмме 1 выходит за пределы 400 и 600.
 
 \newpage
 
@@ -58,6 +64,7 @@ hist(sample2, col="lightgreen", xlim=c(5, 15))
 ```
 
 Which of the samples has a larger variance? Explain your answer.
+Дисперсия больше на графике 1, т.к. там разброс лежит где-то от -10 до 15, а на графике 2 разброс равен 4 (от 8 до 12).
 
 ## Part 2
 
@@ -76,23 +83,23 @@ hist(mistakes, breaks=60, col= "deepskyblue", ylim=c(0, 40))
 ### 3.1
 Is it true that $50$% students made more than $35$ mistakes?
 ```
-
+Нет, это не так. 
 ```
 Explain your answer below:
-
+По графику видно, что большая часть закрашенной фигуры лежит в интервале от 0 до 35. Следовательно, более 35 ошибок совершило менее половины всех студентов. 
 
 ### 3.2
 Is it true that most students made no more than $10$ mistakes?
 ```
-
+Нет, это не так. 
 ```
 Explain your answer below:
-
+По графику видно, что общая плодщадь закрашенной фигуры, лежащей   интервале от 10 до 80, горадздо больше площади фигуры, лежащей в интервале от 0 до 10. Следовательно, меньше 10 ошибок сделало меньшинство студентов, а остальным стоит подучить английский :)
 
 ### 3.3
 Which of the following values is closer to be the median of `mistakes`: $10$, $20$, $30$, $40$?
 ```
-
+Медиана располагается ближе к отметке 20, потому что эта отметкапрмерно делит всех студентов поровну. 
 ```
 Explain your answer below:
 
@@ -119,19 +126,19 @@ $44$, $50$, $42$, $64$, $66$, $42$, $72$, $56$, $72$, $54$, $46$, $48$, $48$, $5
 ### 5.1
 Arrange them in a vector and call it `age`. 
 ```{r}
-
+age <- c(44, 50, 42, 64, 66, 42, 72, 56, 72, 54, 46, 48, 48, 52, 50, 66, 84)
 ```
 
 ### 5.2
 Examine the type of `age` variable (numeric, character, etc).
-```
-
+```{r}
+class(age)
 ```
 
 ### 5.3
 Plot the histogram of the vector `age` with $5$ bins. Change its color to any you want. (Use either R basic or ggplot2 style for plotting.)
 ```{r}
-
+hist(age, col= "yellow", breaks = 5)
 ```
 
 
@@ -143,13 +150,13 @@ Here is a series of words:
 ### 6.1
 Arrange elements above in a vector and call it `words` 
 ```{r}
-
+words <- c("pie", "bar", "bar", "pie", "pie", "bar", "bar", "chart")
 ```
 
 ### 6.2
 Calculate the relative frequences of values in `words` measured in percent.
 ```{r}
-
+table(words)/sum(table(words))*100
 ```
 
 ## Problem 7. Position of verbs in verses
@@ -172,14 +179,28 @@ Let's assume that the probability for verbs to be used in any position ('in gene
 
 What is your null hypothesis $H_0$ and what is the alternative hypothesis $H_1$?
 ```
-H0: 
-H1: 
+H0: Вероятность встретить глаголы в рифме равна 17% (то есть такая же, как и в любой позиции). P(verb in verse) = 17
+H1: Вероятность встретить глгол в рифме больше или равна 17% (то есть отличается от обычной ситуации)
+P(verb in verse) > 17 or P(verb in verse) < 17
 ```
 
 ### 7.2
 
 Read the dataset [“The last words in verses”](https://raw.githubusercontent.com/LingData2019/LingData2020/master/data/poetry_last_in_lines.csv). Filter out the relevant observations from 1920s, calculate the number of verbs observed in the sample, and the sample size. 
 ```{r}
+#install.packages("readr")
+#install.packages("dplyr")
+library(readr)
+library(dplyr)
+verses <- read_tsv("https://raw.githubusercontent.com/LingData2019/LingData2020/master/data/poetry_last_in_lines.csv")
+dverses_1920s <- filter(verses, Decade == '1920s')
+dverbs_1920s <- filter(verbs_1920s, UPoS == 'VERB')
+
+verbs1920 <- nrow(dverbs_1920s)
+verbs1920
+
+sampleSize1920 <- nrow(dverses_1920s)
+sampleSize
 
 ```
 
@@ -187,26 +208,33 @@ Read the dataset [“The last words in verses”](https://raw.githubusercontent.
 
 Use an exact binomial test to calculate p-value. 
 ```{r}
-
+binom.test(verbs1920, sampleSize, p=0.17)
 ```
 
 ### 7.4 Interpret results
 
 Give your interpretation of obtained p-value. Answer the initial question: Can we decide that in verses written in 1920s, verbs are used in the rhyming posision more often or less often than expected?
 ```
-
+p-value = 22%. это больше, чем 5%. следовательно, мы не отвергаем нулевую гипотезу. Веротность встетить глаголы в рифме не отличается от вероятности встретить глагол в любой другой ситуации. 
 ```
 
 ### 7.5 
 *(A bonus problem, extra points in evaluation)*.
 Repeat 2.3 for verses written in the 1820s.
 ```{r}
+dverses_1820s <- filter(verses, Decade == '1820s')
+dverbs_1820s <- filter(dverses_1820s, UPoS == 'VERB')
+verbs1820 <- nrow(dverbs_1820s)
+verbs1820
+sampleSize1820 <- nrow(dverses_1820s)
+sampleSize1820
+binom.test(verbs1820, sampleSize1820, p=0.17)
 
 ```
 
 Write down your general conlusions about data provided for both 1920s and 1820s data.
 ```
-
+Вероятность встретить глагол в рифме не превышает вероятность встретиь его в любой другой позиции что в 1820-е, что в 1920-е гг. 
 ```
 
 ### Problem 8. One-sample t-test
@@ -219,19 +247,23 @@ t.test(sample, mu = 7725) # mu is a population mean
 ### 8.1
 Write down a two-tailed alternative hypothesis.
 ```
-H1: 
+H1:  The population mean of vowel duration in speaker `shg05` does not equal to 73.
 ```
 
 ### 8.2
 Perform a one-sample t-test. 
 ```{r}
+icelandic <- read_csv('https://raw.githubusercontent.com/LingData2019/LingData2020/master/data/icelandic.csv')
+ice_shg05 <- filter(icelandic, speaker == 'shg05')
+ttest <- t.test(ice_shg05$vowel.dur, mu = 73)
+ttest
 
 ```
 
 ### 8.3
 Interpret results. 
 ```
-
+p-value = 5.1%. Это больше, чем 5%. Значит, мы принимаем нулевую гипотезу. 
 ```
 
 #### Supplementary reading
